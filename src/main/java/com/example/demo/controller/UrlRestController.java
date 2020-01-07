@@ -16,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/")
 @AllArgsConstructor
+@CrossOrigin
 public class UrlRestController {
     private UrlService service;
 
@@ -63,7 +64,7 @@ public class UrlRestController {
         String shortUrl = sha256(ori).substring(0,8);
         url.setShortened(shortUrl);
         service.insertUrl(url);
-        model.addAttribute("ss", "http://localhost:8080/"+shortUrl);
+        //model.addAttribute("ss", "http://localhost:8080/"+shortUrl);
     }
 
 }
