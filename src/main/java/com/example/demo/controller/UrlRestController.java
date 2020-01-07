@@ -30,8 +30,10 @@ public class UrlRestController {
     @RequestMapping(method = RequestMethod.GET, value="/{shortened}")
     public void redirectToOrigin(@PathVariable String shortened, HttpServletResponse httpServletResponse) throws IOException {
         Url url = service.findUrlByShortened(shortened);
-        System.out.println("urls searched by shortened: " + url.getOrigin());
-        httpServletResponse.sendRedirect(url.getOrigin());
+        if (url != null) {
+            System.out.println("urls searched by shortened: " + url.getOrigin());
+            httpServletResponse.sendRedirect(url.getOrigin());
+        }
     }
 
     public static String sha256(String msg)  {

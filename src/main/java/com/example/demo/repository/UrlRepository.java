@@ -10,4 +10,5 @@ import java.util.List;
 public interface UrlRepository extends MongoRepository<Url, String> {
     Url findOneByOrigin(String origin);
     Url findOneByShortened(String shortened);
+    List<Url> findAll();
 }

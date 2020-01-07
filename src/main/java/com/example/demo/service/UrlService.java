@@ -24,4 +24,8 @@ public class UrlService {
         url.setId(String.valueOf(url.hashCode()));
         repository.save(url);
     }
+
+    public List<Url> findAll() {
+        return repository.findAll();
+    }
 }
