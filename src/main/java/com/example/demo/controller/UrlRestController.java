@@ -27,6 +27,11 @@ public class UrlRestController {
         return service.findUrlByOrigin(origin);
     }
     */
+    @RequestMapping(method = RequestMethod.GET, value="/api/getall")
+    public List<Url> redirectToOrigin(HttpServletResponse httpServletResponse) throws IOException {
+        List<Url> urls = service.findAll();
+        return urls;
+    }
 
     @RequestMapping(method = RequestMethod.GET, value="/{shortened}")
     public void redirectToOrigin(@PathVariable String shortened, HttpServletResponse httpServletResponse) throws IOException {
@@ -52,7 +57,7 @@ public class UrlRestController {
 
     @RequestMapping(method = RequestMethod.POST, value="/",
     consumes = "application/json")
-    public void postUrl(Model model, @RequestBody Url url) {
+    public String postUrl(Model model, @RequestBody Url url) {
         //System.out.println("origin: " + origin.getOrigin());
 
         String ori=url.getOrigin();
@@ -65,6 +70,7 @@ public class UrlRestController {
         url.setShortened(shortUrl);
         service.insertUrl(url);
         //model.addAttribute("ss", "http://localhost:8080/"+shortUrl);
+        return "http://localhost:8080/" + shortUrl;
     }
 
 }
