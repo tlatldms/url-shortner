@@ -55,7 +55,9 @@ class Search extends Component {
 
                 <tr>
                     <td> {x["origin"]}</td>
-                    <td> <a href={`http://localhost:8080/${x["shortened"]}`}> {x["shortened"]}  </a></td>
+                    <td className="align-middle">
+                        <a target="_blank" href={`http://localhost:8080/${x["shortened"]}`}> {x["shortened"] } </a>
+                    </td>
                 </tr>
             )
         );
@@ -68,6 +70,7 @@ class Search extends Component {
                     type="text"
                     id="input"
                     className="form-control"
+                    placeholder="원본 주소를 입력하세요"
                     onChange={this.handleUrlChange}
                     value={this.state.url}
                     />

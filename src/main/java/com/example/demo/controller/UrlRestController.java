@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @RestController
@@ -20,13 +19,7 @@ import java.util.List;
 public class UrlRestController {
     private UrlService service;
 
-    /*
-    @RequestMapping(method = RequestMethod.GET, value="/{origin}")
-    public Url getUrlOrigin(@PathVariable String origin) {
 
-        return service.findUrlByOrigin(origin);
-    }
-    */
     @RequestMapping(method = RequestMethod.GET, value="/api/getall")
     public List<Url> redirectToOrigin(HttpServletResponse httpServletResponse) throws IOException {
         List<Url> urls = service.findAll();
@@ -69,7 +62,6 @@ public class UrlRestController {
         String shortUrl = sha256(ori).substring(0,8);
         url.setShortened(shortUrl);
         service.insertUrl(url);
-        //model.addAttribute("ss", "http://localhost:8080/"+shortUrl);
         return "http://localhost:8080/" + shortUrl;
     }
 
