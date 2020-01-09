@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/")
@@ -48,9 +50,9 @@ public class UrlRestController {
         return toReturn;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value="/",
+    @RequestMapping(method = RequestMethod.POST, value="/api/post",
     consumes = "application/json")
-    public String postUrl(Model model, @RequestBody Url url) {
+    public Map<String, Object> postUrl(Model model, @RequestBody Url url) {
         //System.out.println("origin: " + origin.getOrigin());
 
         String ori=url.getOrigin();
@@ -61,8 +63,18 @@ public class UrlRestController {
         url.setOrigin(ori);
         String shortUrl = sha256(ori).substring(0,8);
         url.setShortened(shortUrl);
-        service.insertUrl(url);
-        return "http://localhost:8080/" + shortUrl;
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        if (service.findUrlByShortened(shortUrl) == null) {
+            map.put("success", true);
+            map.put("short", shortUrl);
+        } else {
+            map.put("success", false);
+            map.put("message", "url already exists");
+            map.put("short", shortUrl);
+        }
+
+        return map;
     }
 
 }

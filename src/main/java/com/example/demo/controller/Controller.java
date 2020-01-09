@@ -1,16 +1,12 @@
 package com.example.demo.controller;
 
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
-@org.springframework.stereotype.Controller
-@RequestMapping("/")
-@CrossOrigin
+@RestController
 public class Controller {
-    @RequestMapping(method = RequestMethod.GET, value = "/")
+    @GetMapping("/api/index")
     public String index() throws Exception {
-        return "index";
+        return "Hello.... this is ";
     }
 }

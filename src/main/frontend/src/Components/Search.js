@@ -30,18 +30,20 @@ class Search extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
-        axios.post("http://localhost:8080",  {
+        axios.post("http://localhost:8080/api/post",  {
             origin: this.state.url,
         })
             .then(res => {
-                if (res.data) {
-                    this.setState({
-                        shorten:res.data,
-                        list: this.state.list.concat({"origin": this.state.url, "shortened": res.data})
-                    });
 
+                if (res.data.success) {
+                    this.setState({
+                        shorten:res.data.short,
+                        list: this.state.list.concat({"origin": this.state.url, "shortened": res.data.short})
+                    });
+                } else {
+                    alert("Url already exists: " + res.data.short);
                 }
-                console.log(res.data)
+                //console.log(res);
             })
             .catch(error => {
                 console.log(error);
@@ -56,14 +58,14 @@ class Search extends Component {
                 <tr>
                     <td> {x["origin"]}</td>
                     <td className="align-middle">
-                        <a target="_blank" href={`http://localhost:8080/${x["shortened"]}`}> {x["shortened"] } </a>
+                        <a target="_blank" rel="noopener noreferrer" href={`http://localhost:8080/${x["shortened"]}`}> {x["shortened"] } </a>
                     </td>
                 </tr>
             )
         );
         return (
-            <div class="search-box">
-                <div class="search">
+            <div className="search-box">
+                <div className="search">
 
                     <input
                     name="url"
@@ -79,15 +81,15 @@ class Search extends Component {
                     <br />
 
                 </div>
-                <div class="result">
+                <div className="result">
                     {this.state.shorten ? <div className=""> Shortened URL -> <a href={this.state.shorten} class="atag"> {this.state.shorten } </a></div> : null}
                 </div>
                 <div>
                     <table className="table table-hover table-bordered table-sm">
                         <thead className="thead-dark">
                         <tr>
-                            <th class="th-origin">Original</th>
-                            <th class="th-short">Shortened</th>
+                            <th className="th-origin">Original</th>
+                            <th className="th-short">Shortened</th>
                         </tr>
                         </thead>
                         <tbody>
