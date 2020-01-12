@@ -53,21 +53,17 @@ public class UrlRestController {
     @RequestMapping(method = RequestMethod.POST, value="/api/post",
     consumes = "application/json")
     public Map<String, Object> postUrl(Model model, @RequestBody Url url) {
-        //System.out.println("origin: " + origin.getOrigin());
 
         String ori=url.getOrigin();
-        String[] li = ori.split("localhost:8080/");
-
-        //String origin = li[1];
-        //System.out.println("result: "+ origin);
-        url.setOrigin(ori);
         String shortUrl = sha256(ori).substring(0,8);
-        url.setShortened(shortUrl);
 
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         if (service.findUrlByShortened(shortUrl) == null) {
             map.put("success", true);
             map.put("short", shortUrl);
+            url.setOrigin(ori);
+            url.setShortened(shortUrl);
+            service.insertUrl(url);
         } else {
             map.put("success", false);
             map.put("message", "url already exists");
